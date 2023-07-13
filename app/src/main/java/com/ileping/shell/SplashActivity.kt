@@ -1,21 +1,24 @@
 package com.ileping.shell
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import java.lang.Thread.sleep
 
-class MainActivity : AppCompatActivity() {
+
+class SplashActivity : AppCompatActivity() {
     lateinit var webView: WebView
-    private var _exitTime = 0L;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        setContentView(R.layout.activity_splash)
 
         webView = WebView(this).apply {
             settings.apply {
@@ -26,29 +29,25 @@ class MainActivity : AppCompatActivity() {
             webViewClient = WebViewClient()
             webChromeClient = WebChromeClient()
 
-            loadUrl("file:///android_asset/main.html")
+            loadUrl("file:///android_asset/splash.html")
         }
 
-        findViewById<LinearLayout>(R.id.main_container).addView(
+        findViewById<LinearLayout>(R.id.splash_container).addView(
             webView,
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-    }
 
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else if (System.currentTimeMillis() - _exitTime > 2000) {
-            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
-            _exitTime = System.currentTimeMillis()
-        } else {
-            finish();
-//            exitProcess(0);
-//            android.os.Process.killProcess(android.os.Process.myPid());
-        }
-
+        Thread {
+            try {
+                sleep(3000)
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 }

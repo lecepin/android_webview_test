@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        html,
+        body {
+            background-color: #FFD626;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Splash Page</h1>
+<div id="time">
+
+</div>
+<script>
+        var t = 3;
+
+        r();
+
+        setInterval(function () {
+            t--;
+            r();
+        }, 1000)
+
+        function r() {
+            document.getElementById('time').innerHTML = t + "秒后关闭"
+        }
+    </script>
+</body>
+
+</html>
