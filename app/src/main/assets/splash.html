@@ -18,8 +18,9 @@
 <div id="time">
 
 </div>
+<button id="skip">跳过</button>
 <script>
-        var t = 3;
+        var t = 5;
 
         r();
 
@@ -30,6 +31,11 @@
 
         function r() {
             document.getElementById('time').innerHTML = t + "秒后关闭"
+        }
+
+
+        document.getElementById('skip').onclick = function () {
+            prompt("native://skipSplash")
         }
     </script>
 </body>
