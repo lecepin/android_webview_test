@@ -14,18 +14,21 @@
 </head>
 
 <body>
-<h1>Splash Page</h1>
-<div id="time">
+    <h1>Splash Page</h1>
+    <div id="time">
 
-</div>
-<button id="skip">跳过</button>
-<script>
+    </div>
+    <button id="skip">跳过</button>
+    <script>
         var t = 5;
 
         r();
 
         setInterval(function () {
             t--;
+            if (t == 0) {
+                prompt("native://skipSplash")
+            }
             r();
         }, 1000)
 
@@ -37,6 +40,7 @@
         document.getElementById('skip').onclick = function () {
             prompt("native://skipSplash")
         }
+
     </script>
 </body>
 

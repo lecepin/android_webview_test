@@ -4,20 +4,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.JsPromptResult
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.Thread.sleep
 
 
 class SplashActivity : AppCompatActivity() {
     lateinit var webView: WebView
     lateinit var container: LinearLayout
-    var threadBootMain = false
+//    var threadBootMain = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,21 +66,32 @@ class SplashActivity : AppCompatActivity() {
             )
         )
 
-        Thread {
-            try {
-                sleep(5000)
-                goHome()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }.start()
+//        Thread {
+//            try {
+//                sleep(5000)
+//                goHome()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }.start()
+    }
+
+    //    阻止此页面下的退出
+    override fun onBackPressed() {
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+//        防止继续处理 webView 事件
+        webView.destroy()
     }
 
     fun goHome() {
-        if (threadBootMain) {
-            return
-        }
-        threadBootMain = true
+//        if (threadBootMain) {
+//            return
+//        }
+//        threadBootMain = true
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
