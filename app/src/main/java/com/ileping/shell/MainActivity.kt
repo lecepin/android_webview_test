@@ -1,21 +1,39 @@
 package com.ileping.shell
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
-    lateinit var webView: WebView
-    private var _exitTime = 0L;
+    private lateinit var webView: WebView
+    private var _exitTime = 0L
+    private lateinit var splashLauncher: ActivityResultLauncher<Intent>
+    private val tag = this::class.simpleName
+    private var isFromSplash = false
+    private var isInBackground = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        splashLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    isFromSplash = true
+                    Log.d(tag, "Returned from SplashActivity")
+                }
+            }
 
         webView = WebView(this).apply {
             settings.apply {
@@ -46,9 +64,26 @@ class MainActivity : AppCompatActivity() {
             _exitTime = System.currentTimeMillis()
         } else {
             finish();
-//            exitProcess(0);
-//            android.os.Process.killProcess(android.os.Process.myPid());
         }
+    }
 
+    private fun openSplashActivity() {
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.putExtra("FROM_MAIN", true)
+        splashLauncher.launch(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isInBackground && !isFromSplash) {
+            openSplashActivity()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isInBackground = true
+        isFromSplash = false
     }
 }
