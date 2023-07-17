@@ -46,8 +46,8 @@ class SplashActivity : AppCompatActivity() {
 
                             when (uri.host) {
                                 "skipSplash" -> {
+                                    result?.confirm("0")
                                     openMainActivity()
-                                    // result?.confirm("0")
                                 }
                             }
                             return true
