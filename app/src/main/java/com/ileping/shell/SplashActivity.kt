@@ -47,7 +47,7 @@ class SplashActivity : AppCompatActivity() {
                             when (uri.host) {
                                 "skipSplash" -> {
                                     openMainActivity()
-                                    // result?.confirm("call natvie api success")
+                                    // result?.confirm("0")
                                 }
                             }
                             return true
@@ -75,11 +75,10 @@ class SplashActivity : AppCompatActivity() {
     override fun onBackPressed() {
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
 
-        // 防止继续处理 webView 事件
-        webView.destroy()
+        webView.destroy();
     }
 
     fun openMainActivity() {
